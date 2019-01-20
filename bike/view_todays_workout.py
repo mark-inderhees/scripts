@@ -7,36 +7,54 @@ import sys
 from PyQt5.QtWidgets import (
     QApplication,
     QWidget,
-    QFileDialog)
+    QVBoxLayout,
+    QFileDialog,
+    QCalendarWidget,
+    QPushButton)
 
 class App(QWidget):
     """Main class of the script"""
 
     def __init__(self):
         super().__init__()
-        self.config = {}
+        self.config = None
         self.init_ui()
 
     def init_ui(self):
         """Run UI Code"""
         self.setWindowTitle("Today's Workout")
         self.setFixedSize(640, 480)
-        self.open_file_name_dialog()
+        self.load_config()
         self.show()
 
-    def open_file_name_dialog(self):
+    def open_directory_dialog(self):
         """Show open dialog"""
         options = QFileDialog.Options()
-        file_name = QFileDialog.getExistingDirectory(
+        directory_name = QFileDialog.getExistingDirectory(
             self,
             "Workout Directory",
             "",
             options=options)
-        if file_name:
-            print(file_name)
+        if directory_name:
+            return directory_name
+        return None
 
     def build_config(self):
         """Prompt user for config settings and save to disk"""
+        directory_name = self.open_directory_dialog()
+        if directory_name is None:
+            return
+
+        vbox = QVBoxLayout()
+        calendar = QCalendarWidget()
+        calendar.setGridVisible(True)
+        button = QPushButton("Set Start Date")
+        vbox.addWidget(calendar)
+        vbox.addWidget(button)
+        self.setLayout(vbox)
+        date = calendar.selectedDate()
+        print(date)
+
         self.config = None
 
     def load_config(self):
