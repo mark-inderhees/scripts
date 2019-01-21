@@ -83,7 +83,7 @@ class App(QWidget):
 
     def set_date_click(self):
         """Calendar set date button click event handler"""
-        start_date = self.calendar.selectedDate()
+        start_date = self.calendar.selectedDate().toPyDate()
         self.config = {}
         self.config['start_date'] = start_date
         self.config['directory_name'] = self.directory_name
