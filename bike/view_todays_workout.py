@@ -4,6 +4,7 @@ import pickle
 import os
 import sys
 
+from datetime import datetime
 from PyQt5.QtWidgets import (
     QApplication,
     QWidget,
@@ -22,6 +23,8 @@ class App(QWidget):
         self.config_file = None
         self.directory_name = None
         self.start_date = None
+        self.week = None
+        self.day = None
         self.calendar = QCalendarWidget()
         self.vbox = QVBoxLayout()
         self.setLayout(self.vbox)
@@ -43,14 +46,22 @@ class App(QWidget):
             self.vbox.itemAt(i).widget().setParent(None)
         self.directory_name = self.config['directory_name']
         self.start_date = self.config['start_date']
+        time_diff = datetime.now().date() - self.start_date
+        days = time_diff.days + 1
+        self.week = days // 7
+        self.day = days % 7
         label_directory = QLabel(
             'Directory {}'.format(self.directory_name),
             self)
         label_start_date = QLabel(
             'Start date {}'.format(self.start_date),
             self)
+        label_date_diff = QLabel(
+            'W{}D{}'.format(self.week, self.day),
+            self)
         self.vbox.addWidget(label_directory)
         self.vbox.addWidget(label_start_date)
+        self.vbox.addWidget(label_date_diff)
         self.show()
 
     def open_directory_dialog(self):
