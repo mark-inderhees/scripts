@@ -14,6 +14,7 @@ from PyQt5.QtWidgets import (
     QLabel,
     QCalendarWidget,
     QPushButton)
+from PyQt5 import QtCore
 
 class App(QWidget):
     """Main class of the script"""
@@ -40,6 +41,7 @@ class App(QWidget):
         self.duration = None
         self.calendar = QCalendarWidget()
         self.vbox = QVBoxLayout()
+        self.vbox.setAlignment(QtCore.Qt.AlignTop)
         self.setLayout(self.vbox)
         self.setWindowTitle("Today's Workout")
         if self.load_config():
