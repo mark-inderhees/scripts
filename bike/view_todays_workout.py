@@ -3,6 +3,7 @@
 import pickle
 import os
 import sys
+import re
 import xml.etree.ElementTree
 
 from datetime import datetime, timedelta
@@ -38,6 +39,7 @@ class App(QWidget):
         self.config = None
         self.config_file = None
         self.directory_name = None
+        self.ftp = None
         self.start_date = None
         self.days = None
         self.days_offset = 0
@@ -67,6 +69,10 @@ class App(QWidget):
     def init_ui(self):
         '''Run UI Code'''
         self.directory_name = self.config['directory_name']
+        regex = re.match(
+            '([0-9]+)(.*)',
+            os.path.basename(self.directory_name))
+        self.ftp = int(regex.groups()[0])
         self.start_date = self.config['start_date']
         time_diff = datetime.now().date() - self.start_date
         self.days = time_diff.days + 1
@@ -122,6 +128,7 @@ class App(QWidget):
 
         # Build the chart
         self.axes.clear()
+        self.axes.plot([0, step_start_time], [self.ftp, self.ftp], color='grey')
         self.axes.plot(x_data, y_data)
         self.canvas.draw()
         self.canvas.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
