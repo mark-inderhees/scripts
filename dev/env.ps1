@@ -1,18 +1,14 @@
 ﻿
 # To install this script, run these commands:
 # New-Item –Path $Profile –Type File –Force
-# "d:\tools\env.ps1" | Out-File $Profile
+# ". <path>\env.ps1" | Out-File $Profile
 
 # Write-Output "Sourcing private aliases and functions from $($MyInvocation.MyCommand.Path)"
 
-Set-Alias -Name rescan -Scope global -Value d:\tools\env.ps1
+Set-Alias -Name rescan -Scope global -Value $PSCommandPath
 Set-Alias -Name gh -Scope global -Value Get-Help
 Set-Alias -Name p -Scope global -Value Pop-Location
 Set-Alias -Name pl -Scope global -Value Push-Location
-
-Update-TypeData -TypeName System.IO.FileInfo -MemberName FileSize -Force -MemberType ScriptProperty -Value {
-    
-}
 
 if ($PSVersionTable.PSVersion.Major -ge 6) {
     Set-PSReadlineKeyHandler -Chord Ctrl+Enter -Function PossibleCompletions
@@ -36,7 +32,7 @@ function global:ll($target) {
     {
         $target = Get-Location
     }
-    
+
     Write-Host "`nDirectory: $target"
     $properties = (
         'Mode',
@@ -69,7 +65,7 @@ function global:ll($target) {
             {
                 $color = '0' # terminal default color
             }
-            
+
             $e = [char]27 # escape character to being VT escape sequence
             "$e[${color}m$($_.Name)$e[0m"
             }}
@@ -81,10 +77,9 @@ function global:.. {Push-Location ../}
 function global:... {Push-Location ../../}
 function global:.... {Push-Location ../../../}
 function global:..... {Push-Location ../../../../}
-function global:dev {Push-Location d:\tools}
+function global:dev {Push-Location $PSScriptRoot }
 function global:desktop {Join-Path $env:OneDrive "Desktop" | Push-Location}
 
-function global:Backup-Dev {Copy-Item d:\tools\env.ps1 \\analogfs\private\scratch\markind\env.ps1 -Verbose}
 function global:Get-EnvironmentVariables { Get-ChildItem env:* | Sort-Object Name }
 function global:Set-EnvironmentVariable($Variable, $Value) { Set-Item -path env:$Variable -value $Value }
 function global:grep { $input | Out-String -Stream | Select-String $args }
@@ -120,7 +115,7 @@ function global:Get-ParameterAlias($command)
 function global:Get-FriendlySize($bytes)
 {
     $sizes='Bytes,KB,MB,GB,TB,PB,EB,ZB' -split ','
-    for($i=0; ($bytes -ge 1kb) -and 
+    for($i=0; ($bytes -ge 1kb) -and
         ($i -lt $sizes.Count); $i++) {$bytes/=1kb}
     $N=2; if($i -eq 0) {$N=0}
     "{0:N$($N)} {1}" -f $bytes, $sizes[$i]
@@ -165,13 +160,13 @@ function global:Get-GitBranchesFast
             #Find the word branch and create a group for the follow text inside single quotes
             $regex = [regex] "\bbranch\b\s*'(.*?)'"
             $branches = @( $regex.Matches($remotes) | ForEach-Object { $_.Groups[1].Value} )
-            
+
             $locals = Get-Content -Force "$current\.git\config"
             #Find the word branch and create a group for the follow text inside double quotes
             $regex = [regex] '\bbranch\b\s*"(.*?)"'
             $branches += @( $regex.Matches($locals) | ForEach-Object { $_.Groups[1].Value} )
             $branches = $branches | Select-Object -Unique | Sort-Object
-            
+
             return $branches
         }
 
