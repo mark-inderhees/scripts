@@ -16,6 +16,8 @@ from PyQt5.QtWidgets import (
     QCalendarWidget,
     QPushButton)
 from PyQt5 import QtCore
+from PyQt5.QtGui import QPainter
+from PyQt5.QtChart import QChart, QChartView, QLineSeries
 
 class App(QWidget):
     '''Main class of the script'''
@@ -43,6 +45,10 @@ class App(QWidget):
         self.steps = None
         self.duration = None
         self.calendar = QCalendarWidget()
+        self.chart = QChart()
+        self.chart.legend().hide()
+        self.chart_view = QChartView(self.chart)
+        self.chart_view.setRenderHint(QPainter.Antialiasing)
         self.vbox = QVBoxLayout()
         self.vbox.setAlignment(QtCore.Qt.AlignTop)
         self.setLayout(self.vbox)
@@ -85,6 +91,8 @@ class App(QWidget):
         # Parse workout info and add to label
         label_duration = None
         label_steps = None
+        chart_data = QLineSeries()
+        step_start_time = 0
         if self.parse_file():
             label_duration = QLabel(
                 '{} minutes, {} intervals'.format(
@@ -93,16 +101,26 @@ class App(QWidget):
                 self)
             step_text = ''
             for step in self.steps:
+                minutes = round(int(step[1]) / 60, 2)
+                power = step[2]
                 step_text += '{}: {}W for {} minutes\n'.format(
                     '{:02d}'.format(int(step[0])),
-                    step[2],
-                    '{:.2f}'.format(round(int(step[1]) / 60, 2)))
+                    power,
+                    '{:.2f}'.format(minutes))
+                chart_data.append(step_start_time, int(power))
+                step_start_time += minutes
+                chart_data.append(step_start_time, int(power))
             label_steps = QLabel(step_text, self)
         else:
             label_duration = QLabel(
                 'No workout file for this date',
                 self)
             label_steps = QLabel('', self)
+
+        # Build the chart
+        self.chart.removeAllSeries()
+        self.chart.addSeries(chart_data)
+        self.chart.createDefaultAxes()
 
         # Add back, today, and forward buttons
         hbox = QHBoxLayout()
@@ -120,7 +138,7 @@ class App(QWidget):
         self.vbox.addWidget(button_reset)
         self.vbox.addWidget(label_duration)
         self.vbox.addWidget(label_steps)
-        self.vbox.addStretch()
+        self.vbox.addWidget(self.chart_view)
         self.vbox.addLayout(hbox)
         self.show()
 
