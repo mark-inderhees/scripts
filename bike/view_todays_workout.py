@@ -1,15 +1,16 @@
-"""View the workout for today"""
+'''View the workout for today'''
 
 import pickle
 import os
 import sys
 import xml.etree.ElementTree
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from PyQt5.QtWidgets import (
     QApplication,
     QWidget,
     QVBoxLayout,
+    QHBoxLayout,
     QFileDialog,
     QLabel,
     QCalendarWidget,
@@ -17,7 +18,7 @@ from PyQt5.QtWidgets import (
 from PyQt5 import QtCore
 
 class App(QWidget):
-    """Main class of the script"""
+    '''Main class of the script'''
 
     def __init__(self):
         super().__init__()
@@ -36,13 +37,16 @@ class App(QWidget):
         self.directory_name = None
         self.start_date = None
         self.days = None
+        self.days_offset = 0
         self.week_day = None
+        self.date = None
         self.steps = None
         self.duration = None
         self.calendar = QCalendarWidget()
         self.vbox = QVBoxLayout()
         self.vbox.setAlignment(QtCore.Qt.AlignTop)
         self.setLayout(self.vbox)
+        self.setFixedSize(640, 480)
         self.setWindowTitle("Today's Workout")
         if self.load_config():
             if self.config is not None:
@@ -55,44 +59,116 @@ class App(QWidget):
             self.show()
 
     def init_ui(self):
-        """Run UI Code"""
-        self.hide()
-        for i in reversed(range(self.vbox.count())):
-            self.vbox.itemAt(i).widget().setParent(None)
+        '''Run UI Code'''
         self.directory_name = self.config['directory_name']
         self.start_date = self.config['start_date']
         time_diff = datetime.now().date() - self.start_date
         self.days = time_diff.days + 1
         self.calculate_week_day()
-        label_date_diff = QLabel(self.week_day, self)
-        if not self.parse_file():
-            label_error = QLabel(
-                'Failed to parse workout file',
-                self)
-            self.vbox.addWidget(label_error)
-            self.show()
-            return
-        label_duration = QLabel(
-            '{} minutes'.format(self.duration),
+        self.update_ui()
+
+    def update_ui(self):
+        '''Refresh the UI'''
+        self.hide()
+
+        self.clear_layout(self.vbox)
+
+        # Add date label
+        label_date_diff = QLabel(
+            '{} - {}'.format(self.week_day, self.date),
             self)
-        step_text = ''
-        for step in self.steps:
-            step_text += '{}: {}W for {} minutes\n'.format(
-                step[0], step[2], str(int(step[1]) / 60))
-        label_steps = QLabel(step_text, self)
+
+        # Add reset config button
+        button_reset = QPushButton('Reset Configuration')
+        button_reset.clicked.connect(self.reset_config)
+
+        # Parse workout info and add to label
+        label_duration = None
+        label_steps = None
+        if self.parse_file():
+            label_duration = QLabel(
+                '{} minutes'.format(self.duration),
+                self)
+            step_text = ''
+            for step in self.steps:
+                step_text += '{}: {}W for {} minutes\n'.format(
+                    step[0], step[2], str(int(step[1]) / 60))
+            label_steps = QLabel(step_text, self)
+        else:
+            label_duration = QLabel(
+                'No workout file for this date',
+                self)
+            label_steps = QLabel('', self)
+
+        # Add back, today, and forward buttons
+        hbox = QHBoxLayout()
+        button_back = QPushButton('<--')
+        button_back.clicked.connect(self.back_click)
+        button_today = QPushButton('Today')
+        button_today.clicked.connect(self.today_click)
+        button_forward = QPushButton('-->')
+        button_forward.clicked.connect(self.forward_click)
+        hbox.addWidget(button_back)
+        hbox.addWidget(button_today)
+        hbox.addWidget(button_forward)
+
         self.vbox.addWidget(label_date_diff)
+        self.vbox.addWidget(button_reset)
         self.vbox.addWidget(label_duration)
         self.vbox.addWidget(label_steps)
+        self.vbox.addStretch()
+        self.vbox.addLayout(hbox)
         self.show()
 
+    def reset_config(self):
+        '''Query the user for a new configuration'''
+        self.build_config()
+
+    def back_click(self):
+        '''Go back one day'''
+        if self.days + self.days_offset > 1:
+            self.days_offset -= 1
+        self.calculate_week_day()
+        self.update_ui()
+
+    def forward_click(self):
+        '''Go forward one day'''
+        if self.days + self.days_offset < 4 * 7:
+            self.days_offset += 1
+        self.calculate_week_day()
+        self.update_ui()
+
+    def today_click(self):
+        '''Jump to today'''
+        self.days_offset = 0
+        self.calculate_week_day()
+        self.update_ui()
+
+    def clear_layout(self, layout):
+        '''Remove all items from a layout, recursively removing layouts'''
+        for i in reversed(range(layout.count())):
+            item = layout.itemAt(i)
+            if item.widget() is not None:
+                item.widget().setParent(None)
+            elif item.layout() is not None:
+                # This is a layout in a layout, recursively remove all widgets
+                self.clear_layout(item)
+                layout.removeItem(item)
+            else:
+                layout.removeItem(item)
+
     def calculate_week_day(self):
-        """Convert total days into week and day"""
-        week = ((self.days - 1) // 7) + 1
-        day = ((self.days - 1) % 7) + 1
+        '''Convert total days into week and day'''
+        week = ((self.days + self.days_offset - 1) // 7) + 1
+        day = ((self.days + self.days_offset - 1) % 7) + 1
         self.week_day = 'W{}D{}'.format(week, day)
+        date = datetime.today() + timedelta(days=self.days_offset)
+        self.date = date.strftime('%a, %b %d')
+        if self.days_offset == 0:
+            self.date += ' - Today'
 
     def parse_file(self):
-        """Read in workout file contents for current day"""
+        '''Read in workout file contents for current day'''
         workout_file = None
         for directory_file in os.listdir(self.directory_name):
             if self.week_day in directory_file:
@@ -122,26 +198,29 @@ class App(QWidget):
         return True
 
     def open_directory_dialog(self):
-        """Show open dialog"""
+        '''Show open dialog'''
         options = QFileDialog.Options()
         directory_name = QFileDialog.getExistingDirectory(
             self,
-            "Select Workout Directory",
-            "", # Start directory, empty for current directory
+            'Select Workout Directory',
+            '', # Start directory, empty for current directory
             options)
         if directory_name:
             return directory_name
         return None
 
     def build_config(self):
-        """Prompt user for config settings and save to disk"""
+        '''Prompt user for config settings and save to disk'''
         self.directory_name = self.open_directory_dialog()
         if self.directory_name is None:
             return False
 
         self.hide()
+        self.clear_layout(self.vbox)
+
+        # Show calendar date picker
         self.calendar.setGridVisible(True)
-        button = QPushButton("Set Start Date")
+        button = QPushButton('Set Start Date')
         button.clicked.connect(self.set_date_click)
         self.vbox.addWidget(self.calendar)
         self.vbox.addWidget(button)
@@ -150,7 +229,7 @@ class App(QWidget):
         return True
 
     def set_date_click(self):
-        """Calendar set date button click event handler"""
+        '''Calendar set date button click event handler'''
         start_date = self.calendar.selectedDate().toPyDate()
         self.config = {}
         self.config['start_date'] = start_date
@@ -159,17 +238,17 @@ class App(QWidget):
         self.init_ui()
 
     def load_config(self):
-        """Read config file off disk or create a new one"""
+        '''Read config file off disk or create a new one'''
         config_directory = os.path.abspath(os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
             '..',
             '..',
-            "etc"))
+            'etc'))
         if not os.path.exists(config_directory):
             os.mkdir(config_directory)
         self.config_file = os.path.join(
             config_directory,
-            "view_todays_workout.b")
+            'view_todays_workout.b')
 
         if os.path.exists(self.config_file):
             self.config = pickle.load(open(self.config_file, 'rb'))
