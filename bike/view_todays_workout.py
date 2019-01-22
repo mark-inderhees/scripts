@@ -4,6 +4,7 @@ import pickle
 import os
 import sys
 import xml.etree.ElementTree
+import matplotlib.pyplot
 
 from datetime import datetime, timedelta
 from PyQt5.QtWidgets import (
@@ -16,8 +17,8 @@ from PyQt5.QtWidgets import (
     QCalendarWidget,
     QPushButton)
 from PyQt5 import QtCore
-from PyQt5.QtGui import QPainter
-from PyQt5.QtChart import QChart, QChartView, QLineSeries
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+from matplotlib.figure import Figure
 
 class App(QWidget):
     '''Main class of the script'''
@@ -45,10 +46,9 @@ class App(QWidget):
         self.steps = None
         self.duration = None
         self.calendar = QCalendarWidget()
-        self.chart = QChart()
-        self.chart.legend().hide()
-        self.chart_view = QChartView(self.chart)
-        self.chart_view.setRenderHint(QPainter.Antialiasing)
+        self.figure = Figure()
+        self.axes = self.figure.add_subplot(111)
+        self.canvas = FigureCanvasQTAgg(self.figure)
         self.vbox = QVBoxLayout()
         self.vbox.setAlignment(QtCore.Qt.AlignTop)
         self.setLayout(self.vbox)
@@ -91,7 +91,8 @@ class App(QWidget):
         # Parse workout info and add to label
         label_duration = None
         label_steps = None
-        chart_data = QLineSeries()
+        x_data = []
+        y_data = []
         step_start_time = 0
         if self.parse_file():
             label_duration = QLabel(
@@ -107,9 +108,11 @@ class App(QWidget):
                     '{:02d}'.format(int(step[0])),
                     power,
                     '{:.2f}'.format(minutes))
-                chart_data.append(step_start_time, int(power))
+                x_data.append(step_start_time)
+                y_data.append(int(power))
                 step_start_time += minutes
-                chart_data.append(step_start_time, int(power))
+                x_data.append(step_start_time)
+                y_data.append(int(power))
             label_steps = QLabel(step_text, self)
         else:
             label_duration = QLabel(
@@ -118,9 +121,9 @@ class App(QWidget):
             label_steps = QLabel('', self)
 
         # Build the chart
-        self.chart.removeAllSeries()
-        self.chart.addSeries(chart_data)
-        self.chart.createDefaultAxes()
+        self.axes.clear()
+        self.axes.plot(x_data, y_data)
+        self.canvas.draw()
 
         # Add back, today, and forward buttons
         hbox = QHBoxLayout()
@@ -138,7 +141,7 @@ class App(QWidget):
         self.vbox.addWidget(button_reset)
         self.vbox.addWidget(label_duration)
         self.vbox.addWidget(label_steps)
-        self.vbox.addWidget(self.chart_view)
+        self.vbox.addWidget(self.canvas)
         self.vbox.addLayout(hbox)
         self.show()
 
