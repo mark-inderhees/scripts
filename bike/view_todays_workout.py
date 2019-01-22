@@ -128,7 +128,11 @@ class App(QWidget):
 
         # Build the chart
         self.axes.clear()
-        self.axes.plot([0, step_start_time], [self.ftp, self.ftp], color='grey')
+        self.axes.plot(
+            [0, step_start_time],
+            [self.ftp, self.ftp],
+            color='grey',
+            linestyle='dashed')
         self.axes.plot(x_data, y_data)
         self.canvas.draw()
         self.canvas.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
