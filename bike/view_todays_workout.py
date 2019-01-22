@@ -62,12 +62,6 @@ class App(QWidget):
         time_diff = datetime.now().date() - self.start_date
         self.days = time_diff.days + 1
         self.calculate_week_day()
-        label_directory = QLabel(
-            'Directory {}'.format(self.directory_name),
-            self)
-        label_start_date = QLabel(
-            'Start date {}'.format(self.start_date),
-            self)
         label_date_diff = QLabel(self.week_day, self)
         if not self.parse_file():
             label_error = QLabel(
@@ -79,10 +73,14 @@ class App(QWidget):
         label_duration = QLabel(
             '{} minutes'.format(self.duration),
             self)
-        self.vbox.addWidget(label_directory)
-        self.vbox.addWidget(label_start_date)
+        step_text = ''
+        for step in self.steps:
+            step_text += '{}: {}W for {} minutes\n'.format(
+                step[0], step[2], str(int(step[1]) / 60))
+        label_steps = QLabel(step_text, self)
         self.vbox.addWidget(label_date_diff)
         self.vbox.addWidget(label_duration)
+        self.vbox.addWidget(label_steps)
         self.show()
 
     def calculate_week_day(self):
