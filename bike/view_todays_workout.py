@@ -52,7 +52,7 @@ class App(QWidget):
         self.vbox = QVBoxLayout()
         self.vbox.setAlignment(QtCore.Qt.AlignTop)
         self.setLayout(self.vbox)
-        self.setFixedSize(640, 480)
+        self.setFixedSize(480, 640)
         self.setWindowTitle("Today's Workout")
         if self.load_config():
             if self.config is not None:
@@ -141,6 +141,7 @@ class App(QWidget):
         self.vbox.addWidget(button_reset)
         self.vbox.addWidget(label_duration)
         self.vbox.addWidget(label_steps)
+        self.vbox.addStretch()
         self.vbox.addWidget(self.canvas)
         self.vbox.addLayout(hbox)
         self.show()
