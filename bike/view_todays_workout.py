@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 from PyQt5.QtWidgets import (
     QApplication,
     QWidget,
+    QSizePolicy,
     QVBoxLayout,
     QHBoxLayout,
     QFileDialog,
@@ -124,6 +125,7 @@ class App(QWidget):
         self.axes.clear()
         self.axes.plot(x_data, y_data)
         self.canvas.draw()
+        self.canvas.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         # Add back, today, and forward buttons
         hbox = QHBoxLayout()
@@ -141,7 +143,6 @@ class App(QWidget):
         self.vbox.addWidget(button_reset)
         self.vbox.addWidget(label_duration)
         self.vbox.addWidget(label_steps)
-        self.vbox.addStretch()
         self.vbox.addWidget(self.canvas)
         self.vbox.addLayout(hbox)
         self.show()
