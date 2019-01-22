@@ -87,12 +87,16 @@ class App(QWidget):
         label_steps = None
         if self.parse_file():
             label_duration = QLabel(
-                '{} minutes'.format(self.duration),
+                '{} minutes, {} intervals'.format(
+                    self.duration,
+                    len(self.steps)),
                 self)
             step_text = ''
             for step in self.steps:
                 step_text += '{}: {}W for {} minutes\n'.format(
-                    step[0], step[2], str(int(step[1]) / 60))
+                    '{:02d}'.format(int(step[0])),
+                    step[2],
+                    '{:.2f}'.format(round(int(step[1]) / 60, 2)))
             label_steps = QLabel(step_text, self)
         else:
             label_duration = QLabel(
