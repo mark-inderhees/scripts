@@ -4,7 +4,6 @@ import pickle
 import os
 import sys
 import xml.etree.ElementTree
-import matplotlib.pyplot
 
 from datetime import datetime, timedelta
 from PyQt5.QtWidgets import (
