@@ -40,6 +40,7 @@ class App(QWidget):
         self.config_file = None
         self.directory_name = None
         self.ftp = None
+        self.workout_name = None
         self.start_date = None
         self.days = None
         self.days_offset = 0
@@ -73,6 +74,7 @@ class App(QWidget):
             '([0-9]+)(.*)',
             os.path.basename(self.directory_name))
         self.ftp = int(regex.groups()[0])
+        self.workout_name = regex.groups()[1]
         self.start_date = self.config['start_date']
         time_diff = datetime.now().date() - self.start_date
         self.days = time_diff.days + 1
@@ -87,7 +89,11 @@ class App(QWidget):
 
         # Add date label
         label_date_diff = QLabel(
-            '{} - {}'.format(self.week_day, self.date),
+            '{} {} {} - {}'.format(
+                self.week_day,
+                self.workout_name.title(),
+                self.ftp,
+                self.date),
             self)
 
         # Add reset config button
