@@ -16,12 +16,15 @@ if ($PSVersionTable.PSVersion.Major -ge 6) {
     Set-PSReadlineKeyHandler -Chord Ctrl+Spacebar -Function Complete
 }
 
-function global:n { & "c:\windows\notepad.exe" $args }
-function global:np { & "${env:ProgramFiles}\notepad++\notepad++.exe" $args }
-function global:npp { & "${env:ProgramFiles)}\notepad++\notepad++.exe" $args }
-function global:putty { & "d:\tools\putty.exe"}
+function global:n       { & "c:\windows\notepad.exe" $args }
+function global:np      { & "${env:ProgramFiles}\notepad++\notepad++.exe" $args }
+function global:npp     { & "${env:ProgramFiles)}\notepad++\notepad++.exe" $args }
+function global:putty   { & "d:\tools\putty.exe"}
+function global:pnp     { & "d:\tools\pnpexplr.amd64.exe"}
 function global:hclient { & "d:\tools\hclient.exe"}
-function global:err { & "G:\os\src\utilities\err\amd64\err.exe" $args }
+function global:procexp { & "d:\tools\procexp.exe"}
+function global:windbg  { & "C:\Debuggers\windbg.exe" $args}
+function global:err     { & "G:\os\src\utilities\err\amd64\err.exe" $args }
 
 function global:ll($target) {
     if ($target)
