@@ -50,8 +50,10 @@ class App(QWidget):
         self.duration = None
         self.calendar = QCalendarWidget()
         self.figure = Figure()
+        self.figure.set_facecolor('none')
         self.axes = self.figure.add_subplot(111)
         self.canvas = FigureCanvasQTAgg(self.figure)
+        self.canvas.setStyleSheet('background-color:transparent;')
         self.vbox = QVBoxLayout()
         self.vbox.setAlignment(QtCore.Qt.AlignTop)
         self.setLayout(self.vbox)
