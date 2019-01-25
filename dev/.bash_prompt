@@ -1,2 +1,2 @@
 # A very simple bash prompt that only shows the current top level folder name
-PS1='\\W\\$ '
+PS1="\\W\\$ "
