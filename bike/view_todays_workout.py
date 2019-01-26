@@ -51,7 +51,7 @@ class App(QWidget):
         self.duration = None
         self.calendar = QCalendarWidget()
         matplotlib.rcParams.update({'font.size': 22})
-        self.figure = Figure()
+        self.figure = Figure(dpi=100)
         self.figure.set_facecolor('none')
         self.axes = self.figure.add_subplot(111)
         self.canvas = FigureCanvasQTAgg(self.figure)
