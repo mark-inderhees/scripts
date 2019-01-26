@@ -52,7 +52,7 @@ class App(QWidget):
         self.calendar = QCalendarWidget()
         if 'ANDROID_ARGUMENT' in os.environ:
             # On Android, use a larger font size in the graph
-            matplotlib.rcParams.update({'font.size': 22})
+            matplotlib.rcParams.update({'font.size': 35})
         self.figure = Figure()
         self.figure.set_facecolor('none')
         self.axes = self.figure.add_subplot(111)
