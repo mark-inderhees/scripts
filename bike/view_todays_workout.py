@@ -2,6 +2,7 @@
 
 import pickle
 import os
+import platform
 import sys
 import re
 import xml.etree.ElementTree
@@ -101,7 +102,7 @@ class App(QWidget):
             self)
 
         # Add reset config button
-        button_reset = QPushButton('Reset Configuration')
+        button_reset = QPushButton('Reset Configuration {} {}'.format(os.name, platform.system()))
         button_reset.clicked.connect(self.reset_config)
 
         # Parse workout info and add to label
