@@ -102,7 +102,7 @@ class App(QWidget):
             self)
 
         # Add reset config button
-        button_reset = QPushButton('Reset Configuration {} {}'.format(os.name, platform.system()))
+        button_reset = QPushButton('Reset Configuration {} {}'.format(platform.platform(), platform.release()))
         button_reset.clicked.connect(self.reset_config)
 
         # Parse workout info and add to label
