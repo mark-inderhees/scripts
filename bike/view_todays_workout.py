@@ -5,6 +5,7 @@ import os
 import sys
 import re
 import xml.etree.ElementTree
+import matplotlib
 
 from datetime import datetime, timedelta
 from PyQt5.QtWidgets import (
@@ -49,6 +50,7 @@ class App(QWidget):
         self.steps = None
         self.duration = None
         self.calendar = QCalendarWidget()
+        matplotlib.rcParams.update({'font.size': 8})
         self.figure = Figure()
         self.figure.set_facecolor('none')
         self.axes = self.figure.add_subplot(111)
