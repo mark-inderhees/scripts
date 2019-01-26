@@ -2,7 +2,6 @@
 
 import pickle
 import os
-import platform
 import sys
 import re
 import xml.etree.ElementTree
@@ -51,8 +50,10 @@ class App(QWidget):
         self.steps = None
         self.duration = None
         self.calendar = QCalendarWidget()
-        matplotlib.rcParams.update({'font.size': 22})
-        self.figure = Figure(dpi=100)
+        if 'ANDROID_ARGUMENT' in os.environ:
+            # On Android, use a larger font size in the graph
+            matplotlib.rcParams.update({'font.size': 22})
+        self.figure = Figure()
         self.figure.set_facecolor('none')
         self.axes = self.figure.add_subplot(111)
         self.canvas = FigureCanvasQTAgg(self.figure)
@@ -102,7 +103,7 @@ class App(QWidget):
             self)
 
         # Add reset config button
-        button_reset = QPushButton('Reset Configuration {}'.format(platform.release()))
+        button_reset = QPushButton('Reset Configuration')
         button_reset.clicked.connect(self.reset_config)
 
         # Parse workout info and add to label
