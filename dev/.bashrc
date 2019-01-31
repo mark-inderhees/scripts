@@ -29,6 +29,15 @@ p()
     pushd ../../../.. > /dev/null 2>&1
 }
 
+scpit()
+{
+    if [ -z "$SCP_TARGET" ]; then
+        echo "Please set \$SCP_TARGET"
+        return
+    fi
+    scp $1 root@$SCP_TARGET:~
+}
+
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
