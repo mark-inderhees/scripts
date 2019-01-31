@@ -1,6 +1,11 @@
 if [ $ANDROID_DATA ]; then
-    # Android, keep the prompt to a single dir
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[01;36m\]$(__git_ps1) \[\033[01;34m\]\W\[\033[00m\]\$ '
-else
+    # Android, keep the prompt to just a $
+    PS1='\[\033[01;32m\]\$\[\033[00m\] '
+elif [ $DESKTOP_SESSION ]; then
+    # An advanced prompt for Ubuntu
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[01;36m\]$(__git_ps1) \[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    # A simple prompt for other distros
+    PS1='\[\033[01;32m\]\u \[\033[01;34m\]\W\[\033[00m\]\$ '
 fi
+
