@@ -1,27 +1,32 @@
+rescan()
+{
+    echo "Reloading $BASH_SOURCE"
+    source $BASH_SOURCE
+}
+
+p()
+{
+    popd > /dev/null 2>&1
+}
+
 ..()
 {
-    cd ..
+    pushd .. > /dev/null 2>&1
 }
 
 ...()
 {
-    cd ..
-    cd ..
+    pushd ../.. > /dev/null 2>&1
 }
 
 ....()
 {
-    cd ..
-    cd ..
-    cd ..
+    pushd ../../.. > /dev/null 2>&1
 }
 
 .....()
 {
-    cd ..
-    cd ..
-    cd ..
-    cd ..
+    pushd ../../../.. > /dev/null 2>&1
 }
 
 alias ls='ls --color=auto'
