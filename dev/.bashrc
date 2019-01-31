@@ -37,7 +37,7 @@ alias ll='ls -alFh'
 alias la='ls -Ah'
 alias l='ls -CFh'
 
-if [ -e ~/.bash_prompt ]; then
-    source ~/.bash_prompt
-fi
+DIRNAMETMP=$(dirname $BASH_SOURCE)
+source $DIRNAMETMP/.bash_prompt
+unset DIRNAMETMP
 
