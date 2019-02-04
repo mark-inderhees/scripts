@@ -50,3 +50,6 @@ DIRNAMETMP=$(dirname $BASH_SOURCE)
 source $DIRNAMETMP/.bash_prompt
 unset DIRNAMETMP
 
+# Stops CTRL-S from being used as XOFF flow control
+stty -ixon
+
