@@ -1,7 +1,7 @@
 if [ $ANDROID_DATA ]; then
     # Android, keep the prompt to just a $
     PS1='\[\033[01;32m\]\$\[\033[00m\] '
-elif [ $DESKTOP_SESSION ]; then
+elif [ -f /usr/bin/lsb_release ] && [[ `lsb_release -d` == *"Ubuntu"* ]]; then
     # An advanced prompt for Ubuntu
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[01;36m\]$(__git_ps1) \[\033[01;34m\]\w\[\033[00m\]\$ '
 else
