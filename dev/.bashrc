@@ -50,6 +50,9 @@ DIRNAMETMP=$(dirname $BASH_SOURCE)
 source $DIRNAMETMP/.bash_prompt
 unset DIRNAMETMP
 
+# Set terminal tab title based on machine name
+echo -en "\033]0;`hostname`\a"
+
 # Stops CTRL-S from being used as XOFF flow control
 stty -ixon
 
