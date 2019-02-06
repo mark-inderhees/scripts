@@ -61,3 +61,7 @@ echo -en "\033]0;`hostname`\a"
 # Stops CTRL-S from being used as XOFF flow control
 stty -ixon
 
+# To fix issues where long lines are wrapping on the same line
+shopt -s checkwinsize
+resize
+
