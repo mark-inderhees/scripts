@@ -38,6 +38,11 @@ scpit()
     scp $1 root@$SCP_TARGET:~
 }
 
+f()
+{
+    find . -iname "$1"
+}
+
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
