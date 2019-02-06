@@ -63,5 +63,5 @@ stty -ixon
 
 # To fix issues where long lines are wrapping on the same line
 shopt -s checkwinsize
-resize > /dev/null 2>&1
+eval `resize`
 
