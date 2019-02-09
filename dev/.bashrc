@@ -65,3 +65,11 @@ stty -ixon
 shopt -s checkwinsize
 eval `resize`
 
+# If an .inputrc file does not exist, create it
+# If case insensitive tab completion is not set, then set it.
+# The shell will need to be restarted, this is a onetime setup.
+if [ ! -a ~/.inputrc ]; then echo '$include /etc/inputrc' > ~/.inputrc; fi
+if ! grep -Fq "completion-ignore-case" ~/.inputrc ; then
+    echo 'set completion-ignore-case On' >> ~/.inputrc
+fi
+
