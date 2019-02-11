@@ -66,13 +66,24 @@ shopt -s checkwinsize
 eval `resize`
 
 # If an .inputrc file does not exist, create it
-# If case insensitive tab completion is not set, then set it.
-# The shell will need to be restarted, this is a onetime setup.
-if [ ! -a ~/.inputrc ]; then echo '$include /etc/inputrc' > ~/.inputrc; fi
-if ! grep -Fq "completion-ignore-case" ~/.inputrc ; then
+# Set case insensitive tab completion and shift tab menu completion
+# The shell will need to be restarted, this is a onetime setup
+if [ ! -f ~/.inputrc ]; then
+    echo '$include /etc/inputrc' > ~/.inputrc
     echo 'set completion-ignore-case On' >> ~/.inputrc
+    echo 'Tab: complete' >> ~/.inputrc
+    echo '"\e[Z": menu-complete' >> ~/.inputrc
 fi
 
 if [ "$XRDP_SESSION" = "1" ]; then
     gsettings set org.gnome.desktop.interface enable-animations false
+fi
+
+# If a .vimrc file does not exist, create it
+# Set vim to use bar cursor only in insert mode, else block cursor
+if [ ! -f ~/.vimrc ]; then
+    echo 'let &t_ti.="\e[1 q"' > ~/.vimrc
+    echo 'let &t_SI.="\e[5 q"' >> ~/.vimrc
+    echo 'let &t_EI.="\e[1 q"' >> ~/.vimrc
+    echo 'let &t_te.="\e[0 q"' >> ~/.vimrc
 fi
