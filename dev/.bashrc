@@ -73,3 +73,6 @@ if ! grep -Fq "completion-ignore-case" ~/.inputrc ; then
     echo 'set completion-ignore-case On' >> ~/.inputrc
 fi
 
+if [ "$XRDP_SESSION" = "1" ]; then
+    gsettings set org.gnome.desktop.interface enable-animations false
+fi
