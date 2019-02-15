@@ -80,10 +80,23 @@ if [ "$XRDP_SESSION" = "1" ]; then
 fi
 
 # If a .vimrc file does not exist, create it
-# Set vim to use bar cursor only in insert mode, else block cursor
 if [ ! -f ~/.vimrc ]; then
+    # Set vim to use bar cursor only in insert mode, else block cursor
     echo 'let &t_ti.="\e[1 q"' > ~/.vimrc
     echo 'let &t_SI.="\e[5 q"' >> ~/.vimrc
     echo 'let &t_EI.="\e[1 q"' >> ~/.vimrc
     echo 'let &t_te.="\e[0 q"' >> ~/.vimrc
+
+    # Set vim to use 4 space tabs
+    echo 'filetype plugin indent on' >> ~/.vimrc
+    echo 'set tabstop=4' >> ~/.vimrc
+    echo 'set shiftwidth=4' >> ~/.vimrc
+    echo 'set expandtab' >> ~/.vimrc
 fi
+
+# If a .Xmodmap file does not exist, create it
+# Disable middle mouse wheel button to prevent accidental pastes
+if [ ! -f ~/.Xmodmap ]; then
+    echo 'pointer = 1 25 3 4 5 6 7 8 9' > ~/.Xmodmap
+fi
+
