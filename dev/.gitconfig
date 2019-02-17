@@ -1,0 +1,12 @@
+[alias]
+    co = checkout
+    st = status
+    br = branch
+    f = fetch
+    p = pull
+    dt = difftool --dir-diff
+[fetch]
+    prune = true
+[core]
+    editor = vim
+
