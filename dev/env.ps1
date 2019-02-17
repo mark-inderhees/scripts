@@ -19,7 +19,7 @@ if ($PSVersionTable.PSVersion.Major -ge 6) {
 function global:n       { & "c:\windows\notepad.exe" $args }
 function global:np      { & "${env:ProgramFiles}\notepad++\notepad++.exe" $args }
 function global:npp     { & "${env:ProgramFiles)}\notepad++\notepad++.exe" $args }
-function global:putty   { & "d:\tools\putty.exe"}
+function global:putty   { & "d:\tools\putty.exe" $args }
 function global:pnp     { & "d:\tools\pnpexplr.amd64.exe"}
 function global:hclient { & "d:\tools\hclient.exe"}
 function global:procexp { & "d:\tools\procexp.exe"}
