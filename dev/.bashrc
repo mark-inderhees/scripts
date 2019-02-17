@@ -62,8 +62,11 @@ echo -en "\033]0;`hostname`\a"
 stty -ixon
 
 # To fix issues where long lines are wrapping on the same line
-shopt -s checkwinsize
-eval `resize`
+which resize > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    shopt -s checkwinsize
+    eval `resize`
+fi
 
 # If an .inputrc file does not exist, create it
 # Set case insensitive tab completion and shift tab menu completion
