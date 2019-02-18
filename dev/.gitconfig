@@ -1,6 +1,6 @@
 # Import this by adding the following to the global (user) git config
 #[include]
-#     path = "E:/scripts/dev/.gitconfig"
+#    path = "E:/scripts/dev/.gitconfig"
 
 [alias]
     co = checkout

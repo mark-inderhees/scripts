@@ -51,9 +51,17 @@ alias ll='ls -alFh'
 alias la='ls -Ah'
 alias l='ls -CFh'
 
-DIRNAMETMP=$(dirname $BASH_SOURCE)
-source $DIRNAMETMP/.bash_prompt
-unset DIRNAMETMP
+# Configure prompt
+if [ $ANDROID_DATA ]; then
+    # Android, keep the prompt to just a $
+    PS1='\[\033[01;32m\]\$\[\033[00m\] '
+elif [ -f /usr/bin/lsb_release ] && [[ `lsb_release -d` == *"Ubuntu"* ]]; then
+    # An advanced prompt for Ubuntu
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[01;36m\]$(__git_ps1) \[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    # A simple prompt for other distros
+    PS1='\[\033[01;32m\]\u \[\033[01;34m\]\W\[\033[00m\]\$ '
+fi
 
 # Set terminal tab title based on machine name
 echo -en "\033]0;`hostname`\a"
