@@ -17,6 +17,15 @@ if ($PSVersionTable.PSVersion.Major -ge 6) {
 
 if (-not (Test-Path $env:HOMEPATH\vimfiles\vimrc)) {
     # Create vimrc file
+    # source $VIM\_vimrc
+
+    # set nobackup
+
+    # " Set vim to use 4 space tabs
+    # filetype plugin indent on
+    # set tabstop=4
+    # set shiftwidth=4
+    # set expandtab
 }
 
 function global:n       { & "c:\windows\notepad.exe" $args }
