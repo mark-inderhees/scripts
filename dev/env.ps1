@@ -1,6 +1,5 @@
-﻿
 # To install this script, run these commands:
-# New-Item –Path $Profile –Type File –Force
+# New-Item -Path $Profile -Type File -Force
 # ". <path>\env.ps1" | Out-File $Profile
 
 # Write-Output "Sourcing private aliases and functions from $($MyInvocation.MyCommand.Path)"
@@ -14,6 +13,10 @@ if ($PSVersionTable.PSVersion.Major -ge 6) {
     Set-PSReadlineKeyHandler -Chord Ctrl+Enter -Function PossibleCompletions
     Set-PSReadlineKeyHandler -Chord Tab -Function MenuComplete
     Set-PSReadlineKeyHandler -Chord Ctrl+Spacebar -Function Complete
+}
+
+if (-not (Test-Path $env:HOMEPATH\vimfiles\vimrc)) {
+    # Create vimrc file
 }
 
 function global:n       { & "c:\windows\notepad.exe" $args }
