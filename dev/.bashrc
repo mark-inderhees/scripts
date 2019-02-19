@@ -90,19 +90,10 @@ if [ "$XRDP_SESSION" = "1" ]; then
     gsettings set org.gnome.desktop.interface enable-animations false
 fi
 
-# If a .vimrc file does not exist, create it
-if [ ! -f ~/.vimrc ]; then
-    # Set vim to use bar cursor only in insert mode, else block cursor
-    echo 'let &t_ti.="\e[1 q"' > ~/.vimrc
-    echo 'let &t_SI.="\e[5 q"' >> ~/.vimrc
-    echo 'let &t_EI.="\e[1 q"' >> ~/.vimrc
-    echo 'let &t_te.="\e[0 q"' >> ~/.vimrc
-
-    # Set vim to use 4 space tabs
-    echo 'filetype plugin indent on' >> ~/.vimrc
-    echo 'set tabstop=4' >> ~/.vimrc
-    echo 'set shiftwidth=4' >> ~/.vimrc
-    echo 'set expandtab' >> ~/.vimrc
+# Update .vimrc if it does not exist or is different
+cmp .vimrc ~/.vimrc --silent
+if [ $? -ne 0 ]; then
+    cp .vimrc ~/.vimrc
 fi
 
 # If a .Xmodmap file does not exist, create it
