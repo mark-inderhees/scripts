@@ -91,10 +91,12 @@ if [ "$XRDP_SESSION" = "1" ]; then
 fi
 
 # Update .vimrc if it does not exist or is different
-cmp .vimrc ~/.vimrc --silent
+DIRNAMETMP=$(dirname $BASH_SOURCE)
+cmp $DIRNAMETMP/.vimrc ~/.vimrc --silent
 if [ $? -ne 0 ]; then
-    cp .vimrc ~/.vimrc
+    cp $DIRNAMETMP/.vimrc ~/.vimrc
 fi
+unset DIRNAMETMP
 
 # If a .Xmodmap file does not exist, create it
 # Disable middle mouse wheel button to prevent accidental pastes
