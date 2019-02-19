@@ -15,21 +15,10 @@ if ($PSVersionTable.PSVersion.Major -ge 6) {
     Set-PSReadlineKeyHandler -Chord Ctrl+Spacebar -Function Complete
 }
 
-$vimrc = "$env:HOMEPATH\vimfiles\vimrc"
-if (-not (Test-Path $vimrc)) {
-    # Create vimrc file
-    New-Item -ItemType File -Force -Path $vimrc | Out-Null
-    Add-Content -Path $vimrc -Value @'
-source $VIM\_vimrc
-
-set nobackup
-
-" Set vim to use 4 space tabs
-filetype plugin indent on
-set tabstop=4
-set shiftwidth=4
-set expandtab
-'@
+$vimrc = "$env:HOMEDRIVE$env:HOMEPATH\vimfiles\vimrc"
+if ((-not (Test-Path $vimrc)) -Or
+    (Compare-Object -ReferenceObject (Get-Content .\.vimrc) -DifferenceObject (Get-Content $vimrc))) {
+    Copy-Item .\.vimrc $vimrc
 }
 
 function global:n       { & "c:\windows\notepad.exe" $args }
