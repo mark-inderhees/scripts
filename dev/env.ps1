@@ -16,9 +16,10 @@ if ($PSVersionTable.PSVersion.Major -ge 6) {
 }
 
 $vimrc = "$env:HOMEDRIVE$env:HOMEPATH\vimfiles\vimrc"
+$vimrcSource = Split-Path -parent $PSCommandPath | Join-Path -ChildPath ".vimrc"
 if ((-not (Test-Path $vimrc)) -Or
-    (Compare-Object -ReferenceObject (Get-Content .\.vimrc) -DifferenceObject (Get-Content $vimrc))) {
-    Copy-Item .\.vimrc $vimrc
+    (Compare-Object -ReferenceObject (Get-Content $vimrcSource) -DifferenceObject (Get-Content $vimrc))) {
+    Copy-Item $vimrcSource $vimrc
 }
 
 function global:n       { & "c:\windows\notepad.exe" $args }
