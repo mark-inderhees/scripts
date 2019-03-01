@@ -22,3 +22,6 @@ set expandtab
 " Remap Ctrl-* keys to \*
 nnoremap <Leader>w <C-w>
 
+" Use system clipboard instead of vim clipboard
+set clipboard=unnamedplus
+
