@@ -5,6 +5,10 @@ endif
 set nobackup
 set noundofile
 
+set number
+set incsearch
+set ignorecase 
+
 " Set vim to use bar cursor only in insert mode, else block cursor
 if has("unix")
     let &t_ti.="\e[1 q"
