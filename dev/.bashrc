@@ -76,15 +76,13 @@ if [ $? -eq 0 ]; then
     eval `resize`
 fi
 
-# If an .inputrc file does not exist, create it
-# Set case insensitive tab completion and shift tab menu completion
-# The shell will need to be restarted, this is a onetime setup
-if [ ! -f ~/.inputrc ]; then
-    echo '$include /etc/inputrc' > ~/.inputrc
-    echo 'set completion-ignore-case On' >> ~/.inputrc
-    echo 'Tab: complete' >> ~/.inputrc
-    echo '"\e[Z": menu-complete' >> ~/.inputrc
+# Update .inputrc if it does not exist or is different
+DIRNAMETMP=$(dirname $BASH_SOURCE)
+cmp $DIRNAMETMP/.inputrc ~/.inputrc --silent
+if [ $? -ne 0 ]; then
+    cp $DIRNAMETMP/.inputrc ~/.inputrc
 fi
+unset DIRNAMETMP
 
 if [ "$XRDP_SESSION" = "1" ]; then
     gsettings set org.gnome.desktop.interface enable-animations false

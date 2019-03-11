@@ -1,0 +1,8 @@
+$include /etc/inputrc
+
+# Set case insensitive tab completion and shift tab menu completion
+set completion-ignore-case On
+set show-all-if-ambiguous On
+Tab: menu-complete
+"\e[Z": menu-complete-backward
+
