@@ -103,3 +103,8 @@ if [ ! -f ~/.Xmodmap ]; then
     echo 'pointer = 1 25 3 4 5 6 7 8 9' > ~/.Xmodmap
 fi
 
+# Run private script if it exists
+if [ -f ~/.bashrc_private ]; then
+    source ~/.bashrc_private
+fi
+
