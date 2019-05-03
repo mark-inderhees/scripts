@@ -35,7 +35,30 @@ scpit()
         echo "Please set \$SCP_TARGET"
         return
     fi
-    scp $1 root@$SCP_TARGET:~
+
+    if [ -z "$1" ]; then
+        echo "Please specify a file to scp"
+        echo "scpit file [user] [destination]"
+        return
+    fi
+
+    if [ "$1" = "?" ]; then
+        echo "scpit file [user] [destination]"
+        return
+    fi
+
+    local scpuser="root"
+    if [ -n "$2" ]; then
+        scpuser=$2
+    fi
+
+    local dest="~"
+    if [ -n "$3" ]; then
+        dest=$3
+    fi
+
+    echo "executing scp $1 $scpuser@$SCP_TARGET:$dest"
+    scp $1 $scpuser@$SCP_TARGET:$dest
 }
 
 f()
@@ -107,4 +130,3 @@ fi
 if [ -f ~/.bashrc_private ]; then
     source ~/.bashrc_private
 fi
-
