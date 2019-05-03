@@ -84,7 +84,7 @@ elif [ -f /usr/bin/lsb_release ] && [[ `lsb_release -d` == *"Ubuntu"* ]]; then
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[01;36m\]$(__git_ps1) \[\033[01;34m\]\w\[\033[00m\]\$ '
 else
     # A simple prompt for other distros
-    PS1='\[\033[01;32m\]\u \[\033[01;34m\]\W\[\033[00m\]\$ '
+    PS1='\[\033[01;32m\]\u \[\033[01;34m\]\w\[\033[00m\]\$ '
 fi
 
 # Set terminal tab title based on machine name
