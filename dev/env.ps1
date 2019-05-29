@@ -19,6 +19,7 @@ $vimrc = "$env:HOMEDRIVE$env:HOMEPATH\vimfiles\vimrc"
 $vimrcSource = Split-Path -parent $PSCommandPath | Join-Path -ChildPath ".vimrc"
 if ((-not (Test-Path $vimrc)) -Or
     (Compare-Object -ReferenceObject (Get-Content $vimrcSource) -DifferenceObject (Get-Content $vimrc))) {
+    New-Item -Force $vimrc | Out-Null
     Copy-Item $vimrcSource $vimrc
 }
 
