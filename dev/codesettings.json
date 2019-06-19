@@ -1,0 +1,13 @@
+{
+    "editor.stablePeek": true,
+    "editor.rulers": [80, 120],
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "cmake.configureOnOpen": true,
+    "workbench.quickOpen.closeOnFocusLost": false,
+    "workbench.editor.enablePreview": false,
+    "editor.renderWhitespace": "boundary",
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "explorer.openEditors.visible": 0,
+    "[python]": {}
+}
