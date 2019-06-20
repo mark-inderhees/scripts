@@ -116,6 +116,7 @@ grep -q .gitconfig ~/.gitconfig
 if [ $? -ne 0 ]; then
     echo "[include]" >> ~/.gitconfig
     echo "    path = \"$DIRNAMETMP/.gitconfig\"" >> ~/.gitconfig
+    echo "    path = \"$DIRNAMETMP/.gitconfiglinux\"" >> ~/.gitconfig
 fi
 
 # Update .vimrc if it does not exist or is different
