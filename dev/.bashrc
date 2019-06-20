@@ -112,11 +112,13 @@ if [ "$XRDP_SESSION" = "1" ]; then
 fi
 
 # If .gitconfig does not include the shared settings, add it
-grep -q .gitconfig ~/.gitconfig
-if [ $? -ne 0 ]; then
-    echo "[include]" >> ~/.gitconfig
-    echo "    path = \"$DIRNAMETMP/.gitconfig\"" >> ~/.gitconfig
-    echo "    path = \"$DIRNAMETMP/.gitconfiglinux\"" >> ~/.gitconfig
+if [ -f ~/.gitconfig ]; then
+    grep -q .gitconfig ~/.gitconfig
+    if [ $? -ne 0 ]; then
+        echo "[include]" >> ~/.gitconfig
+        echo "    path = \"$DIRNAMETMP/.gitconfig\"" >> ~/.gitconfig
+        echo "    path = \"$DIRNAMETMP/.gitconfiglinux\"" >> ~/.gitconfig
+    fi
 fi
 
 # Update .vimrc if it does not exist or is different
