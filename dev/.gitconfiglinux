@@ -1,2 +1,9 @@
 [credential]
     helper = store
+[diff]
+    tool = meld
+[difftool]
+    prompt = false
+[diftool "meld"]
+    cmd = meld "$LOCAL" "$REMOTE"
+
