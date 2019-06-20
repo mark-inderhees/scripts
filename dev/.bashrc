@@ -106,35 +106,35 @@ cmp $DIRNAMETMP/.inputrc ~/.inputrc --silent
 if [ $? -ne 0 ]; then
     cp $DIRNAMETMP/.inputrc ~/.inputrc
 fi
-unset DIRNAMETMP
 
 if [ "$XRDP_SESSION" = "1" ]; then
     gsettings set org.gnome.desktop.interface enable-animations false
 fi
 
+# If .gitconfig does not include the shared settings, add it
+grep -q .gitconfig ~/.gitconfig
+if [ $? -ne 0 ]; then
+    echo "[include]" >> ~/.gitconfig
+    echo "    path = \"$DIRNAMETMP/.gitconfig\"" >> ~/.gitconfig
+fi
+
 # Update .vimrc if it does not exist or is different
-DIRNAMETMP=$(dirname $BASH_SOURCE)
 cmp $DIRNAMETMP/.vimrc ~/.vimrc --silent
 if [ $? -ne 0 ]; then
     cp $DIRNAMETMP/.vimrc ~/.vimrc
 fi
-unset DIRNAMETMP
 
 # Update VS Code settings.json if it does not exist or is different
-DIRNAMETMP=$(dirname $BASH_SOURCE)
 cmp $DIRNAMETMP/codesettings.json ~/.config/Code/User/settings.json --silent
 if [ $? -ne 0 ]; then
     cp $DIRNAMETMP/codesettings.json ~/.config/Code/User/settings.json
 fi
-unset DIRNAMETMP
 
 # Update VS Code keybindings.json if it does not exist or is different
-DIRNAMETMP=$(dirname $BASH_SOURCE)
 cmp $DIRNAMETMP/codekeybindings.json ~/.config/Code/User/keybindings.json --silent
 if [ $? -ne 0 ]; then
     cp $DIRNAMETMP/codekeybindings.json ~/.config/Code/User/keybindings.json
 fi
-unset DIRNAMETMP
 
 # If a .Xmodmap file does not exist, create it
 # Disable middle mouse wheel button to prevent accidental pastes
@@ -146,3 +146,5 @@ fi
 if [ -f ~/.bashrc_private ]; then
     source ~/.bashrc_private
 fi
+
+unset DIRNAMETMP
