@@ -125,16 +125,19 @@ if [ $? -ne 0 ]; then
     cp $DIRNAMETMP/.vimrc ~/.vimrc
 fi
 
-# Update VS Code settings.json if it does not exist or is different
-cmp $DIRNAMETMP/codesettings.json ~/.config/Code/User/settings.json --silent
-if [ $? -ne 0 ]; then
-    cp $DIRNAMETMP/codesettings.json ~/.config/Code/User/settings.json
-fi
+# VS Code config
+if [ -d ~/.config/Code ]; then
+    # Update VS Code settings.json if it does not exist or is different
+    cmp $DIRNAMETMP/codesettings.json ~/.config/Code/User/settings.json --silent
+    if [ $? -ne 0 ]; then
+        cp $DIRNAMETMP/codesettings.json ~/.config/Code/User/settings.json
+    fi
 
-# Update VS Code keybindings.json if it does not exist or is different
-cmp $DIRNAMETMP/codekeybindings.json ~/.config/Code/User/keybindings.json --silent
-if [ $? -ne 0 ]; then
-    cp $DIRNAMETMP/codekeybindings.json ~/.config/Code/User/keybindings.json
+    # Update VS Code keybindings.json if it does not exist or is different
+    cmp $DIRNAMETMP/codekeybindings.json ~/.config/Code/User/keybindings.json --silent
+    if [ $? -ne 0 ]; then
+        cp $DIRNAMETMP/codekeybindings.json ~/.config/Code/User/keybindings.json
+    fi
 fi
 
 # If a .Xmodmap file does not exist, create it
