@@ -61,6 +61,40 @@ scpit()
     scp $1 $scpuser@$SCP_TARGET:$dest
 }
 
+scpget()
+{
+    if [ -z "$SCP_TARGET" ]; then
+        echo "Please set \$SCP_TARGET"
+        return
+    fi
+
+    if [ -z "$1" ]; then
+        echo "Please specify a file to scp"
+        echo "scpit file [user] [destination]"
+        return
+    fi
+
+    if [ "$1" = "?" ]; then
+        echo "scpgit file [user] [destination]"
+        return
+    fi
+
+    local file="$1"
+
+    local scpuser="root"
+    if [ -n "$2" ]; then
+        scpuser=$2
+    fi
+
+    local dest="~"
+    if [ -n "$3" ]; then
+        dest=$3
+    fi
+
+    echo "executing scp $scpuser@$SCP_TARGET:$file $dest"
+    scp $scpuser@$SCP_TARGET:$file $dest
+}
+
 f()
 {
     find . -iname "$1"
