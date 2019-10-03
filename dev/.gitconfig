@@ -10,6 +10,7 @@
     f = fetch
     p = pull
     dt = difftool --dir-diff
+    df = diff --word-diff
 [fetch]
     prune = true
 [core]
