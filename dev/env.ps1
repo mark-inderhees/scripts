@@ -1,6 +1,6 @@
 # To install this script, run these commands:
 # New-Item -Path $Profile -Type File -Force
-# ". <path>\env.ps1" | Out-File $Profile
+# ". $(Get-Location)\env.ps1" | Out-File $Profile
 
 # Write-Output "Sourcing private aliases and functions from $($MyInvocation.MyCommand.Path)"
 
