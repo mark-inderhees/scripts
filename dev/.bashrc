@@ -29,6 +29,11 @@ p()
     pushd ../../../.. > /dev/null 2>&1
 }
 
+settitle()
+{
+    echo -en "\033]0;$1\a"
+}
+
 scpit()
 {
     if [ -z "$SCP_TARGET" ]; then
@@ -129,6 +134,7 @@ else
 fi
 
 # Set terminal tab title based on machine name
+PROMPT_COMMAND=
 echo -en "\033]0;`hostname`\a"
 
 # Stops CTRL-S from being used as XOFF flow control
