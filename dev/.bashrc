@@ -109,6 +109,11 @@ alias ll='ls -alFh'
 alias la='ls -Ah'
 alias l='ls -CFh'
 
+# Add git prompt support if available
+if ! type __git_ps1 &> /dev/null && [ -e /usr/share/git-core/contrib/completion/git-prompt.sh ]; then
+    source /usr/share/git-core/contrib/completion/git-prompt.sh
+fi
+
 # Configure prompt
 if [ $ANDROID_DATA ]; then
     # Android, keep the prompt to just a $
@@ -116,6 +121,8 @@ if [ $ANDROID_DATA ]; then
 elif [ -f /usr/bin/lsb_release ] && [[ `lsb_release -d` == *"Ubuntu"* ]]; then
     # An advanced prompt for Ubuntu
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[01;36m\]$(__git_ps1) \[\033[01;34m\]\w\[\033[00m\]\$ '
+elif [ -f /etc/fedora-release ]; then
+    PS1='\[\033[01;32m\]\u\[\033[01;36m\]$(__git_ps1) \[\033[01;34m\]\w\[\033[00m\]\$ '
 else
     # A simple prompt for other distros
     PS1='\[\033[01;32m\]\u \[\033[01;34m\]\w\[\033[00m\]\$ '
