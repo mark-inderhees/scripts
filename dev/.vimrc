@@ -29,3 +29,6 @@ nnoremap <Leader>w <C-w>
 " Use system clipboard instead of vim clipboard
 set clipboard=unnamedplus
 
+" Tell vim the term is dark background so colors are readable
+set background=dark
+
