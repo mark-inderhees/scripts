@@ -187,4 +187,7 @@ if [ -f ~/.bashrc_private ]; then
     source ~/.bashrc_private
 fi
 
+# Set cursor as ibeam
+printf '\033[5 q'
+
 unset DIRNAMETMP

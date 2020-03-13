@@ -29,3 +29,6 @@ nnoremap <Leader>w <C-w>
 " Use system clipboard instead of vim clipboard
 set clipboard=unnamedplus
 
+" On exit of vim, reset the cursor
+autocmd VimLeave * let &t_me="\<Esc>]50;CursorShape=1\x7"
+
