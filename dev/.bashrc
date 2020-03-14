@@ -34,6 +34,11 @@ settitle()
     echo -en "\033]0;$1\a"
 }
 
+addtopath()
+{
+    export PATH=$1:$PATH
+}
+
 scpit()
 {
     if [ -z "$SCP_TARGET" ]; then
