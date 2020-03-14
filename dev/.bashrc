@@ -179,6 +179,12 @@ if [ $? -ne 0 ]; then
     cp $DIRNAMETMP/.vimrc ~/.vimrc
 fi
 
+# Update .tmux.conf if it does not exist or is different
+cmp $DIRNAMETMP/.tmux.conf ~/.tmux.conf --silent
+if [ $? -ne 0 ]; then
+    cp $DIRNAMETMP/.tmux.conf ~/.tmux.conf
+fi
+
 # VS Code config
 if [ -d ~/.config/Code ]; then
     # Update VS Code settings.json if it does not exist or is different
