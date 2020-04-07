@@ -85,7 +85,7 @@ scpget()
     fi
 
     if [ "$1" = "?" ]; then
-        echo "scpgit file [user] [destination]"
+        echo "scpget file [user] [destination]"
         return
     fi
 
@@ -120,8 +120,10 @@ alias la='ls -Ah'
 alias l='ls -CFh'
 
 # Add git prompt support if available
-if ! type __git_ps1 &> /dev/null && [ -e /usr/share/git-core/contrib/completion/git-prompt.sh ]; then
-    source /usr/share/git-core/contrib/completion/git-prompt.sh
+if ! type _scm_prompt &> /dev/null; then
+    if [ -f /usr/share/scm/scm-prompt.sh ]; then
+        source /usr/share/scm/scm-prompt.sh
+    fi
 fi
 
 # Configure prompt
@@ -132,7 +134,7 @@ elif [ -f /usr/bin/lsb_release ] && [[ `lsb_release -d` == *"Ubuntu"* ]]; then
     # An advanced prompt for Ubuntu
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[01;36m\]$(__git_ps1) \[\033[01;34m\]\w\[\033[00m\]\$ '
 elif [ -f /etc/fedora-release ]; then
-    PS1='\[\033[01;32m\]\u\[\033[01;36m\]$(__git_ps1) \[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='\[\033[01;32m\]\u\[\033[01;36m\]$(_scm_prompt) \[\033[01;34m\]\w\[\033[00m\]\$ '
 else
     # A simple prompt for other distros
     PS1='\[\033[01;32m\]\u \[\033[01;34m\]\w\[\033[00m\]\$ '
