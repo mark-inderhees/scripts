@@ -9,6 +9,11 @@ p()
     popd > /dev/null 2>&1
 }
 
+pd()
+{
+    pushd $1 > /dev/null 2>&1
+}
+
 ..()
 {
     pushd .. > /dev/null 2>&1
