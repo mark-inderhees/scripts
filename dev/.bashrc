@@ -85,7 +85,7 @@ scpget()
 
     if [ -z "$1" ]; then
         echo "Please specify a file to scp"
-        echo "scpit file [user] [destination]"
+        echo "scpget file [user] [destination]"
         return
     fi
 
