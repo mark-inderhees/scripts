@@ -9,5 +9,7 @@
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
     "explorer.openEditors.visible": 0,
-    "[python]": {}
+    "[python]": {},
+    "editor.minimap.enabled": false,
+    "terminal.integrated.scrollback": 99999
 }
