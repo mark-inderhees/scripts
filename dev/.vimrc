@@ -32,3 +32,7 @@ set clipboard=unnamedplus
 " Tell vim the term is dark background so colors are readable
 set background=dark
 
+" Enable folder specific .vimrc files and make them secure
+set exrc
+set secure
+
