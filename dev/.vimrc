@@ -2,6 +2,10 @@ if filereadable(expand("$VIM/_vimrc"))
     source $VIM\_vimrc
 endif
 
+if filereadable(expand("/etc/vimrc"))
+    source /etc/vimrc
+endif
+
 set nobackup
 set noundofile
 

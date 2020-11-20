@@ -142,7 +142,7 @@ elif [ -f /etc/fedora-release ]; then
     PS1='\[\033[01;32m\]\u\[\033[01;36m\]$(_scm_prompt) \[\033[01;34m\]\w\[\033[00m\]\$ '
 else
     # A simple prompt for other distros
-    PS1='\[\033[01;32m\]\u \[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='\[\033[01;32m\]\u\[\033[00m\]@\[\033[01;36m\]\h \[\033[01;34m\]\w\[\033[00m\]\$ '
 fi
 
 # Set terminal tab title based on machine name
