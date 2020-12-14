@@ -146,8 +146,7 @@ else
 fi
 
 # Set terminal tab title based on machine name
-PROMPT_COMMAND=
-echo -en "\033]0;`hostname`\a"
+PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}\007"'
 
 # Stops CTRL-S from being used as XOFF flow control
 stty -ixon
