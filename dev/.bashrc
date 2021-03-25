@@ -110,6 +110,11 @@ scpget()
     scp $scpuser@$SCP_TARGET:$file $dest
 }
 
+ssh_exit_master()
+{
+    ssh -O exit $1
+}
+
 f()
 {
     find . -iname "$1"
