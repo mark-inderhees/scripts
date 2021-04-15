@@ -128,6 +128,7 @@ alias ccat='pygmentize -g'
 alias ll='ls -alFh'
 alias la='ls -Ah'
 alias l='ls -CFh'
+alias psa='ps axo user:20,pid,cmd'
 
 # Add git prompt support if available
 if ! type _scm_prompt &> /dev/null; then
