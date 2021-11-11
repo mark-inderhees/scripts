@@ -36,7 +36,8 @@ pd()
 
 settitle()
 {
-    echo -en "\033]0;$1\a"
+    mytitle=$1
+    PROMPT_COMMAND='echo -ne "\033]0;${mytitle}\007"'
 }
 
 addtopath()
