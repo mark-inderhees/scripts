@@ -123,7 +123,7 @@ f()
 
 psak()
 {
-    psa | grep "$1" | awk '{print $2}' | xargs kill -9
+    ps axu | grep "$1" | awk '{print $2}' | xargs kill -9
 }
 
 alias ls='ls --color=auto'
