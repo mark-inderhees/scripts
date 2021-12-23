@@ -121,6 +121,11 @@ f()
     find . -iname "$1"
 }
 
+psag()
+{
+    ps axu | grep "$1"
+}
+
 psak()
 {
     ps axu | grep "$1" | awk '{print $2}' | xargs kill -9
