@@ -237,4 +237,7 @@ fi
 # Set cursor as ibeam
 printf '\033[5 q'
 
+# When using tab complete with a $VARIABLE, expand it instead of escape it
+shopt -s direxpand
+
 unset DIRNAMETMP
