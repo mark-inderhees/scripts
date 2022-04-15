@@ -34,7 +34,7 @@ pd()
     pushd ../../../.. > /dev/null 2>&1
 }
 
-settitle()
+setname()
 {
     mytitle=$1
     PROMPT_COMMAND='echo -ne "\033]0;${mytitle}\007"'
