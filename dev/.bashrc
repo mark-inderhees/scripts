@@ -233,6 +233,9 @@ fi
 if [ -f ~/.bashrc_private ]; then
     source ~/.bashrc_private
 fi
+if [ -f $DIRNAMETMP/.bashrc_private ]; then
+    source $DIRNAMETMP/.bashrc_private
+fi
 
 # Set cursor as ibeam
 printf '\033[5 q'
