@@ -131,6 +131,11 @@ psak()
     ps axu | grep "$1" | awk '{print $2}' | xargs kill -9
 }
 
+sudopsak()
+{
+    ps axu | grep "$1" | awk '{print $2}' | xargs sudo kill -9
+}
+
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
