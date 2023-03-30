@@ -136,6 +136,11 @@ sudopsak()
     ps axu | grep "$1" | awk '{print $2}' | xargs sudo kill -9
 }
 
+hexit()
+{
+    hexdump -C $1 > $1.hexdump
+}
+
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
