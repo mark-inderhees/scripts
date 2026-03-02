@@ -9,6 +9,10 @@ Set-Alias -Name gh -Scope global -Value Get-Help
 Set-Alias -Name p -Scope global -Value Pop-Location
 Set-Alias -Name pl -Scope global -Value Push-Location
 
+function drive {
+        Set-Location "G:\My Drive\notes\markind@meta"
+}
+
 if ($PSVersionTable.PSVersion.Major -ge 6) {
     Set-PSReadlineKeyHandler -Chord Ctrl+Enter -Function PossibleCompletions
     Set-PSReadlineKeyHandler -Chord Tab -Function MenuComplete
